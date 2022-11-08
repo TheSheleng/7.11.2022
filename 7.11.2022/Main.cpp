@@ -15,10 +15,6 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_CLOSE:
-		EndDialog(hWnd, 0);
-		return TRUE;
-
 	case  WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BUTTON)
 		{
@@ -70,6 +66,8 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			MessageBox(hWnd, str, TEXT(""), MB_OK);
 		}
 
+	case WM_CLOSE:
+		EndDialog(hWnd, 0);
 		return TRUE;
 	}
 	return FALSE;
