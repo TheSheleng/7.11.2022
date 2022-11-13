@@ -54,13 +54,18 @@
 #define FIRST_CHECK                     IDC_CHECK1_1
 #define LAST_CHECK                      IDC_CHECK5_4
 
+#define IDC_EDIT1                       3001
+#define IDC_EDIT2                       3002
+#define FIRST_EDIT                      IDC_EDIT1
+#define LAST_EDIT                       IDC_EDIT2
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1022
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -13,6 +13,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPTSTR lpszCmdLine
 
 BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	TCHAR str[DEFAULT_STR_LEN]{};
 	switch (message)
 	{
 	case  WM_COMMAND:
@@ -44,7 +45,7 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 
 			//Проверка вторых вопросов
-			static bool CHE_ANSW[LAST_CHECK - FIRST_CHECK + 1] =
+			static const bool CHE_ANSW[LAST_CHECK - FIRST_CHECK + 1] =
 			{
 				false, true, true, false,	 // вопрос 1
 				true, true, false, false,	 // вопрос 2
@@ -59,12 +60,31 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					result += SCORE_PER_ANSW / (ANSW_END - 1);
 			}
 
-			TCHAR str[DEFAULT_STR_LEN]{};
+			//проверка третих вопросов
+			static const TCHAR EDIT_ANSW[][DEFAULT_STR_LEN] = { 
+				TEXT("120"), 
+				TEXT("156"), 
+			};
+
+			for (int i = FIRST_EDIT; i <= LAST_EDIT; i++)
+			{
+				GetWindowText(GetDlgItem(hWnd, i), str, DEFAULT_STR_LEN);
+				if (!memcmp(str, EDIT_ANSW[i - FIRST_EDIT], DEFAULT_STR_LEN))
+					result += SCORE_PER_ANSW;
+			}
+
+			//Вывод
 			wsprintf(str, TEXT("Результат: %i / %i"), result, 
-				((LAST_RADIO - FIRST_RADIO + 1) + (LAST_CHECK - FIRST_CHECK + 1))
-				/ (ANSW_END - 1) * SCORE_PER_ANSW);
+				((LAST_RADIO - FIRST_RADIO + 1) +
+				(LAST_CHECK - FIRST_CHECK + 1)) *
+				SCORE_PER_ANSW / (ANSW_END - 1) +
+				(LAST_EDIT - FIRST_EDIT + 1) *
+				SCORE_PER_ANSW
+			);
+
 			MessageBox(hWnd, str, TEXT(""), MB_OK);
 		}
+		return TRUE;
 
 	case WM_CLOSE:
 		EndDialog(hWnd, 0);
