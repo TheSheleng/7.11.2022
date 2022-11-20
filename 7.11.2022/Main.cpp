@@ -21,7 +21,33 @@ const int cSQues = 5;
 const int cTQues = 2;
 
 BOOL CALLBACK DlgProc(HWND, UINT, WPARAM, LPARAM);
-HWND hProg;
+HWND hProg, hPGroupe;
+
+DWORD WINAPI OnTimer(_In_ LPVOID hWnd)
+{
+	DWORD pr = GetPriorityClass(GetCurrentProcess());
+	SetPriorityClass(GetCurrentProcess(), BELOW_NORMAL_PRIORITY_CLASS);
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
+
+	TCHAR str[DEFAULT_STR_LEN]{};
+	unsigned short time = 600;
+
+	while (time > 0)
+	{
+		--time;
+		wsprintf(str, TEXT("Времени осталось: %iм. %iс."), time / 60, time - time / 60 * 60);
+		SetWindowText(hPGroupe, str);
+
+		Sleep(1000);
+	}
+
+	MessageBox((HWND)hWnd, TEXT("Время вышло. Вы не успели сдать тест.\nПопробуйте в следующий раз."), 
+		TEXT(""), MB_OK | MB_ICONINFORMATION);
+	EndDialog((HWND)hWnd, 0);
+
+	SetPriorityClass(GetCurrentProcess(), pr);
+	return 0;
+}
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPTSTR lpszCmdLine, int nCmdShow)
 {
@@ -37,10 +63,12 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 	{
 		hProg = GetDlgItem(hWnd, IDC_PROGRESS1);
+		hPGroupe = GetDlgItem(hWnd, IDC_TIME_PROG);
 
 		SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, cFQues + cSQues + cTQues));
 		SendMessage(hProg, PBM_SETSTEP, 1, 0);
-		SendMessage(hProg, PBM_SETBARCOLOR, 0, LPARAM(RGB(100, 200, 100)));
+
+		CreateThread(NULL, 0, OnTimer, hWnd, 0, NULL);
 	}
 	return TRUE;
 
@@ -135,6 +163,7 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			);
 
 			MessageBox(hWnd, str, TEXT(""), MB_OK);
+			EndDialog(hWnd, 0);
 		}
 	}
 	return TRUE;

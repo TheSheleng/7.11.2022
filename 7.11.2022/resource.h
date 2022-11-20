@@ -3,7 +3,6 @@
 // Используется 7.11.2022.rc
 //
 #define IDD_DIALOG                      100
-
 #define IDB_BITMAP1                     102
 #define IDB_BITMAP2                     103
 #define IDC_BUTTON                      104
@@ -30,6 +29,9 @@
 #define IDC_RADIO5_4                    1020
 #define FIRST_RADIO                     IDC_RADIO1_1
 #define LAST_RADIO                      IDC_RADIO5_4
+
+#define IDC_PROGRESS1                   1022
+#define IDC_TIME_PROG                   1023
 
 #define IDC_CHECK1_1                    2001
 #define IDC_CHECK1_2                    2002
@@ -59,15 +61,13 @@
 #define FIRST_EDIT                      IDC_EDIT1
 #define LAST_EDIT                       IDC_EDIT2
 
-#define IDC_PROGRESS1                   1022
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1023
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
